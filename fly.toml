@@ -1,0 +1,26 @@
+app = "dailymotion-telegram-bot"
+
+[build]
+  image = "dockerfile"
+
+[env]
+  TELEGRAM_TOKEN = "${TELEGRAM_TOKEN}"
+
+[deploy]
+  strategy = "rolling"
+
+[[services]]
+  internal_port = 80
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 80
+  [[services.ports]]
+    handlers = ["tls"]
+    port = 443
+
+  [[services.tcp_checks]]
+    interval = 10000
+    timeout = 2000
+    grace_period = "1s"
+    restart_limit = 0
